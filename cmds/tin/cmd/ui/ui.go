@@ -1,8 +1,10 @@
 package ui
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
+	"log"
+
+	"github.com/mon7792/card/services/ui"
 )
 
 // GetCommand returns the game server command.
@@ -11,7 +13,8 @@ func GetCommand() *cobra.Command {
 		Use:   "ui",
 		Short: "display the game ui",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Game UI render service started")
+			log.Println("starting UI server: 3000")
+			ui.ServeUI()
 		},
 	}
 }

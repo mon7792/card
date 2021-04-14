@@ -1,8 +1,11 @@
 package game
 
 import (
-	"fmt"
+	"log"
+
 	"github.com/spf13/cobra"
+
+	"github.com/mon7792/card/services/game"
 )
 
 // GetCommand returns the game server command.
@@ -11,7 +14,8 @@ func GetCommand() *cobra.Command {
 		Use:   "game",
 		Short: "game server",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("GAME SERVER STARTED")
+			log.Println("Starting Game Server:5000")
+			game.ServeGame()
 		},
 	}
 }
