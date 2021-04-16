@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NewGame</title>
+</head>
+<body>
+<h2>Enter</h2>
+<h3>Game ID:</h3>
+<input id="game-id" type="text" placeholder="Game Id"/>
+<h3>Player ID:</h3>
+<input id="player-id" type="text" placeholder="Player Id"/>
+<button id="button-id">Submit</button>
+
+<script type="application/javascript">
+    // data
+    let newGame = {}
+    newGame["message"] = ""
+
+
+    let playerID = document.getElementById("player-id")
+    let gameID = document.getElementById("game-id")
+    let buttonID = document.getElementById("button-id")
+    buttonID.addEventListener("click", function () {
+        if (playerID.disabled){
+            return
+        }
+        // disable the input
+        playerID.disabled =  true
+        gameID.disabled =  true
+
+        // send the value for the new game session
+        newGame["game-id"] = gameID.value
+        newGame["player-id"] = playerID.value
+        console.log(newGame);
+    })
+
+</script>
+</body>
+</html>

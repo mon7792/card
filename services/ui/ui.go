@@ -3,7 +3,6 @@ package ui
 import (
 	"log"
 	"net/http"
-	"os"
 )
 
 // ServeUI serves game ui.
