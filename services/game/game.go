@@ -1,3 +1,4 @@
+// package game docs.
 package game
 
 import (
@@ -7,7 +8,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-// upgrader specify the paramter to upgrade from http_connection to websocket connection
+// upgrader specify the parameter to upgrade from http_connection to websocket connection
 var upgrader = websocket.Upgrader{}
 
 func init() {
@@ -56,7 +57,12 @@ func echo(w http.ResponseWriter, r *http.Request) {
 			log.Println("err:", err)
 			break
 		}
-		log.Printf("recv: %s \n", message)
+		log.Printf("recv: %s \n", string(message))
+		result, err := DecodeMessage(message)
+		if err != nil {
+			log.Println("err:", err)
+		}
+		log.Printf("recv: %v \n", result)
 
 		err = conn.WriteMessage(mt, message)
 		if err != nil {
