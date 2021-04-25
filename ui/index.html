@@ -100,6 +100,7 @@
         // send the value for the new game session
         newGame["game-id"] = gameID.value
         newGame["player-id"] = playerID.value
+        newGame["action"] = "ENTER"
         console.log(newGame);
         sendDataWebSocket(JSON.stringify(newGame));
 

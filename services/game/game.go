@@ -2,8 +2,8 @@
 package game
 
 import (
-	"log"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/websocket"
@@ -36,7 +36,7 @@ func ServeGame() {
 	}
 }
 
-func serveWs(w http.ResponseWriter, r *http.Request){
+func serveWs(w http.ResponseWriter, r *http.Request) {
 	ws, err := webSoc.Upgrader(w, r)
 	if err != nil {
 		fmt.Fprintf(w, "%+V\n", err)
@@ -44,51 +44,18 @@ func serveWs(w http.ResponseWriter, r *http.Request){
 	}
 	webSoc.Reader(ws, handleMessage)
 }
-func handleMessage(message []byte)error {
+
+func handleMessage(message []byte) error {
+	// TODO:
+	// decode the message. If invalid format. send the message in the correct format
+	// store the message.
+	// send the feedback on the basis of the above action.
 	result, err := DecodeMessage(message)
-		if err != nil {
-			log.Println("err:", err)
-			return err
-		}
-		log.Println(result)
-		return nil
+	if err != nil {
+		log.Println("err:", err)
+		return err
+	}
+	// store the message.
+	log.Println(result)
+	return nil
 }
-// 2. create a websocket handler
-// func echo(w http.ResponseWriter, r *http.Request) {
-// 	//  upgrade the connection
-// 	//  here conn refer the websocket connection
-
-// 	conn, err := upgrader.Upgrade(w, r, nil)
-// 	if err != nil {
-// 		log.Println("err:", err)
-// 		return
-// 	}
-// 	defer func() {
-// 		if err := conn.Close(); err != nil {
-// 			log.Println(err)
-// 		}
-// 	}()
-
-// 	log.Printf("local address: %s  || remote address: %s \n", conn.LocalAddr(), conn.RemoteAddr())
-// 	// read the message and write the message
-// 	for {
-// 		mt, message, err := conn.ReadMessage()
-// 		if err != nil {
-// 			log.Println("err:", err)
-// 			break
-// 		}
-// 		log.Printf("recv: %s \n", string(message))
-// 		result, err := DecodeMessage(message)
-// 		if err != nil {
-// 			log.Println("err:", err)
-// 		}
-// 		log.Printf("recv: %v \n", result)
-
-// 		err = conn.WriteMessage(mt, message)
-// 		if err != nil {
-// 			log.Println("err:", err)
-// 			break
-// 		}
-// 	}
-
-// }

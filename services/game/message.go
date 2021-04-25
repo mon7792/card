@@ -6,6 +6,7 @@ import "encoding/json"
 type message struct {
 	GameID   string `json:"game-id"`
 	PlayerID string `json:"player-id"`
+	Action   string `json:"action"`
 	Message  string `json:"message"`
 }
 
