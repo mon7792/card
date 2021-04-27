@@ -3,6 +3,11 @@ package websocket
 
 import "fmt"
 
+// GamePool docs
+type GamePool struct {
+	Game map[string]*Pool
+}
+
 // Pool contain all the channel needed for the concurrent connection within a single game.
 type Pool struct {
 	Register   chan *Client

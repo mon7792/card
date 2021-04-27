@@ -8,6 +8,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
+	"github.com/mon7792/card/pkg/state"
 	webSoc "github.com/mon7792/card/pkg/websocket"
 )
 
@@ -51,13 +52,15 @@ func serveWs(pool *webSoc.Pool, w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "%+V\n", err)
 		return
 	}
+	var gamePool = &webSoc.GamePool{Game: make(map[string]*webSoc.Pool)}
 	client := &webSoc.Client{
 		Conn: ws,
 		Pool: pool,
+		Game: gamePool,
 	}
-
+	// TODO: pool resgistration based on the game ID.
 	pool.Register <- client
-	client.Read()
+	client.Read(state.EvaluateGameState)
 }
 
 func handleMessage(message []byte) error {

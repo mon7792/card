@@ -30,24 +30,3 @@ func Upgrader(w http.ResponseWriter, r *http.Request) (*websocket.Conn, error) {
 
 	return ws, nil
 }
-
-// Reader docs
-func Reader(conn *websocket.Conn, handleMessage func(message []byte) error) {
-	for {
-		mt, message, err := conn.ReadMessage()
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		log.Println("message:", string(message))
-		if err := handleMessage(message); err != nil {
-			log.Println(err)
-			return
-		}
-
-		if err := conn.WriteMessage(mt, message); err != nil {
-			log.Println(err)
-			return
-		}
-	}
-}
