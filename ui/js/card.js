@@ -31,9 +31,4 @@ function shuffle(deck) {
 
 // start the game
 let CardDeck = getNewDeck();
-
-
 shuffle(CardDeck);
-
-console.log(CardDeck[0],CardDeck[2],CardDeck[4]);
-console.log(CardDeck[1],CardDeck[3],CardDeck[5]);
