@@ -3,7 +3,6 @@
 let suits = ["spades", "diamonds", "clubs", "hearts"];
 let values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J","Q","K"];
 let cardObject = { Value: "", Suit: ""};
-let cardDeck = [];
 
 // getNewDeck returns single card deck in order
 function getNewDeck(){
@@ -17,7 +16,6 @@ function getNewDeck(){
     return deck;
 }
 
-// TODO: shuffle in the most entertaining game ways
 // shuffle the deck
 function shuffle(deck) {
     for (let i = 0; i < 1000; i++){
@@ -32,8 +30,10 @@ function shuffle(deck) {
 
 
 // start the game
-let newDeck = getNewDeck();
-shuffle(newDeck);
+let CardDeck = getNewDeck();
 
-console.log(newDeck[0],newDeck[2],newDeck[4]);
-console.log(newDeck[1],newDeck[3],newDeck[5]);
+
+shuffle(CardDeck);
+
+console.log(CardDeck[0],CardDeck[2],CardDeck[4]);
+console.log(CardDeck[1],CardDeck[3],CardDeck[5]);
