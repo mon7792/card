@@ -1,110 +1,118 @@
-<!DOCTYPE HTML>
-
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script type="text/javascript">
-        function WebSocketTest() {
-
-            if ("WebSocket" in window) {
-
-                // Let us open a web socket
-                var ws = new WebSocket("ws://localhost:5000/echo");
-
-                ws.onopen = function () {
-
-                    // Web Socket is connected, send data using send()
-                    ws.send("HELLO");
-                    console.log("Message is sent...:HELLO");
-                };
-
-                ws.onmessage = function (evt) {
-                    var received_msg = evt.data;
-                    console.log("Message received")
-                    console.log(received_msg);
-                };
-
-                ws.onclose = function () {
-
-                    // websocket is closed.
-                    alert("Connection is closed...");
-                };
-            } else {
-
-                // The browser doesn't support WebSocket
-                alert("WebSocket NOT supported by your Browser!");
-            }
-        }
-    </script>
-
+    <meta charset="UTF-8">
+    <title>NewGame</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
-<h2>Enter</h2>
-<h3>Game ID:</h3>
-<input id="game-id" type="text" placeholder="Game Id"/>
-<h3>Player ID:</h3>
-<input id="player-id" type="text" placeholder="Player Id"/>
-<button id="button-id">Submit</button>
+<h2>TIN GAME</h2>
+<button id="new-button-id">NEW GAME</button>
+<div id="game-table">
+    <h4>PLAYER-1</h4>
+    <div class="card">
+        <div class="card-item" id="1">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number">   1</div>
+                <div class="card-item-value-suit">
+                    ICON-1
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+        <div class="card-item" id="2">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number">   2</div>
+                <div class="card-item-value-suit">
+                    ICON-2
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+        <div class="card-item" id="3">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number">   3</div>
+                <div class="card-item-value-suit">
+                    ICON-3
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+    </div>
+    <h4>PLAYER-2</h4>
+    <div class="card">
+        <div class="card-item" id="4">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number">   4</div>
+                <div class="card-item-value-suit">
+                    ICON-4
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+        <div class="card-item" id="5">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number">   5</div>
+                <div class="card-item-value-suit">
+                    ICON-5
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+        <div class="card-item" id="6">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number">   6</div>
+                <div class="card-item-value-suit">
+                    ICON-6
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+    </div>
+</div>
 
+<script src="js/card.js" type="application/javascript"></script>
 <script type="application/javascript">
-    // data
-    let newGame = {}
-    newGame["message"] = ""
-
     // variable
-    let playerID = document.getElementById("player-id")
-    let gameID = document.getElementById("game-id")
-    let buttonID = document.getElementById("button-id")
+    let player1Cards = [];
+    let player2Cards = [];
 
-    // function.
-    function sendDataWebSocket(data) {
-
-        if ("WebSocket" in window) {
-
-            // Let us open a web socket
-            var ws = new WebSocket("ws://localhost:5000/echo");
-
-            ws.onopen = function () {
-                // Web Socket is connected, send data using send()
-                ws.send(data);
-                console.log("Message is sent...:HELLO");
-            };
-
-            ws.onmessage = function (evt) {
-                var received_msg = evt.data;
-                console.log("Message received")
-                console.log(received_msg);
-            };
-
-            ws.onclose = function () {
-
-                // websocket is closed.
-                console.log("Connection is closed...");
-            };
-        } else {
-
-            // The browser doesn't support WebSocket
-            alert("WebSocket NOT supported by your Browser!");
-        }
-    }
+    let newButtonID = document.getElementById("new-button-id");
+    let cardItems = document.getElementsByClassName("card-item");
 
     // button click event handler.
-    buttonID.addEventListener("click", function () {
-        if (playerID.disabled) {
-            return
-        }
-        // disable the input
-        playerID.disabled = true
-        gameID.disabled = true
+    newButtonID.addEventListener("click", function () {
+        console.log("game started");
+    //    1. distribute the card
+        distributeCards(CardDeck);
+    //    2. display the board
+        console.log(player1Cards);
+        console.log(player2Cards);
+        console.log("card",cardItems);
+    //    3. display the winner
+    });
 
-        // send the value for the new game session
-        newGame["game-id"] = gameID.value
-        newGame["player-id"] = playerID.value
-        newGame["action"] = "ENTER"
-        console.log(newGame);
-        sendDataWebSocket(JSON.stringify(newGame));
+    // distributeCards between two players.
+    function distributeCards(cardDeck) {
+        player1Cards.push(CardDeck[0],CardDeck[2],CardDeck[4]);
+        player2Cards.push(CardDeck[1],CardDeck[3],CardDeck[5]);
+    }
 
-    })
+    // displayCardsToPlayer appends the card to game board.
+    function displayCardsToPlayer() {
+        console.log(cardItems);
+
+    }
+
+
+
 </script>
 
 </body>
