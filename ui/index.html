@@ -15,9 +15,8 @@
         <div class="card-item" id="1">
             <!-- CARD VALUE -->
             <div class="card-item-value">
-                <div class="card-item-value-number">   1</div>
+                <div class="card-item-value-number"></div>
                 <div class="card-item-value-suit">
-                    ICON-1
                 </div>
             </div>
             <!-- CARD VALUE END -->
@@ -25,9 +24,8 @@
         <div class="card-item" id="2">
             <!-- CARD VALUE -->
             <div class="card-item-value">
-                <div class="card-item-value-number">   2</div>
+                <div class="card-item-value-number"></div>
                 <div class="card-item-value-suit">
-                    ICON-2
                 </div>
             </div>
             <!-- CARD VALUE END -->
@@ -35,9 +33,8 @@
         <div class="card-item" id="3">
             <!-- CARD VALUE -->
             <div class="card-item-value">
-                <div class="card-item-value-number">   3</div>
+                <div class="card-item-value-number"></div>
                 <div class="card-item-value-suit">
-                    ICON-3
                 </div>
             </div>
             <!-- CARD VALUE END -->
@@ -48,9 +45,8 @@
         <div class="card-item" id="4">
             <!-- CARD VALUE -->
             <div class="card-item-value">
-                <div class="card-item-value-number">   4</div>
+                <div class="card-item-value-number"></div>
                 <div class="card-item-value-suit">
-                    ICON-4
                 </div>
             </div>
             <!-- CARD VALUE END -->
@@ -58,9 +54,8 @@
         <div class="card-item" id="5">
             <!-- CARD VALUE -->
             <div class="card-item-value">
-                <div class="card-item-value-number">   5</div>
+                <div class="card-item-value-number"></div>
                 <div class="card-item-value-suit">
-                    ICON-5
                 </div>
             </div>
             <!-- CARD VALUE END -->
@@ -68,9 +63,8 @@
         <div class="card-item" id="6">
             <!-- CARD VALUE -->
             <div class="card-item-value">
-                <div class="card-item-value-number">   6</div>
+                <div class="card-item-value-number"></div>
                 <div class="card-item-value-suit">
-                    ICON-6
                 </div>
             </div>
             <!-- CARD VALUE END -->
@@ -93,10 +87,10 @@
     //    1. distribute the card
         distributeCards(CardDeck);
     //    2. display the board
-        console.log(player1Cards);
-        console.log(player2Cards);
-        console.log("card",cardItems);
-    //    3. display the winner
+        displayCardsToPlayer(player1Cards, player2Cards);
+    //    3. evaluate the winner
+
+    //    4. display the winner
     });
 
     // distributeCards between two players.
@@ -106,9 +100,34 @@
     }
 
     // displayCardsToPlayer appends the card to game board.
-    function displayCardsToPlayer() {
-        console.log(cardItems);
+    function displayCardsToPlayer(player1Cards, player2Cards) {
+        let i;
+        for (i = 0; i < cardItems.length; i++){
+            let cardItem = cardItems[i];
+            let cardDetails = getPlayerCards(player1Cards, player2Cards, i);
 
+            // update card in the game board.
+            cardItem.querySelector(".card-item-value-number").innerHTML = cardDetails.cardValue;
+            cardItem.querySelector(".card-item-value-suit").innerHTML = cardDetails.cardSuit;
+            
+            // update the color.
+            cardItem.style.backgroundColor = SuitColor.get(cardDetails.cardSuit);
+        }
+    }
+
+    // getPlayerCards returns card assigned to particular player
+    function getPlayerCards(playCard1, playCard2, noOfCards){
+        let currentPlayCard;
+        let cardValue; 
+        let cardSuit;
+        if (noOfCards < 3){
+            currentPlayCard = playCard1;
+        } else {
+            currentPlayCard = playCard2;
+        }
+        cardValue = currentPlayCard[noOfCards%3].Value;
+        cardSuit =  currentPlayCard[noOfCards%3].Suit;
+        return { cardValue, cardSuit};
     }
 
 

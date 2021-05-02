@@ -1,6 +1,21 @@
 
 // CARD VARIABLE
-let suits = ["spades", "diamonds", "clubs", "hearts"];
+
+const spades = "spades";
+const diamonds = "diamonds";
+const clubs = "clubs";
+const hearts = "hearts";
+
+const red = "red";
+const black = "black";
+
+let SuitColor = new Map();
+SuitColor.set(spades, black);
+SuitColor.set(clubs, black);
+SuitColor.set(hearts, red);
+SuitColor.set(diamonds, red);
+
+let suits = [spades, diamonds, clubs, hearts];
 let values = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J","Q","K"];
 let cardObject = { Value: "", Suit: ""};
 
