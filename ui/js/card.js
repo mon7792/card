@@ -50,12 +50,20 @@ function EvaluteTheWinner(player1Cards, player2Cards){
     category.push(evaluateCardsCategory(player2Cards))
 
     switch(true){
-        case (category[0]>category[1]):
+        case (category[0] < category[1]):
             return "player 1 win";
-        case (category[1]>category[0]):
+        case (category[0] > category[1]):
             return "player 2 win";
         default:
-            return "draw";
+            let player1 = getHightestCard(player1Cards) 
+            let player2 = getHightestCard(player2Cards)
+            if (player1 > player2){
+                return "player 1 win"
+            } else if (player2 > player1){
+                return "player 2 win"
+            } else {
+                return "draw";
+            }
     }
 
     // TODO: winning category.
@@ -104,7 +112,7 @@ function checkCardSameNumber(playerCards){
 // 2. checkCardSameSuitInSeries check if the player cards are in same color and in series
 function checkCardSameSuitInSeries(playerCards){
     // check in same suit
-    if (!(helperCheckInSuit(playerCards[0].Suit,playerCards[1].Suit,playerCards[2].Suit))){
+    if (!(helperCheckInSuit(playerCards[0],playerCards[1],playerCards[2]))){
         return false
     }
     
@@ -114,7 +122,7 @@ function checkCardSameSuitInSeries(playerCards){
 // 3. checkCardDifferentSuitInSeries check if the player cards are in different color and in Series.
 function checkCardDifferentSuitInSeries(playerCards){
     // check in different suit.
-    if (helperCheckInSuit(playerCards[0].Suit,playerCards[1].Suit,playerCards[2].Suit)){
+    if (helperCheckInSuit(playerCards[0],playerCards[1],playerCards[2])){
         return false
     }
     
@@ -124,11 +132,7 @@ function checkCardDifferentSuitInSeries(playerCards){
 // 4. checkCardSameSuitNotInSeries check if the player cards are in same color and not in series
 function checkCardSameSuitNotInSeries(playerCards){
     // check in same suit
-    if (!(helperCheckInSuit(playerCards[0].Suit,playerCards[1].Suit,playerCards[2].Suit))){
-        return false
-    }
-    
-    return !(helperCheckInSeries(playerCards[0].Value, playerCards[1].Value, playerCards[2].Value))
+    return helperCheckInSuit(playerCards[0],playerCards[1],playerCards[2])
 }
 
 // 5. checkCardInPair check if the player cards are in pair.
@@ -142,9 +146,14 @@ function getHightestCard(playerCards){
     cardIndex.push(values.indexOf(playerCards[0].Value));
     cardIndex.push(values.indexOf(playerCards[1].Value));
     cardIndex.push(values.indexOf(playerCards[2].Value));
-    cardIndex.sort();
+    
+    cardIndex.sort(function( a , b){
+        if(a > b) return 1;
+        if(a < b) return -1;
+        return 0;
+    });
 
-    return values[cardIndex[2]]
+    return cardIndex[2];
 }
 
 // helperCheckInSuit check if the card in same suit.
