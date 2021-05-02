@@ -9,6 +9,7 @@
 <body>
 <h2>TIN GAME</h2>
 <button id="new-button-id">NEW GAME</button>
+<div id="game-result"></div>
 <div id="game-table">
     <h4>PLAYER-1</h4>
     <div class="card">
@@ -80,6 +81,7 @@
 
     let newButtonID = document.getElementById("new-button-id");
     let cardItems = document.getElementsByClassName("card-item");
+    let gameResult = document.getElementById("game-result");
 
     // button click event handler.
     newButtonID.addEventListener("click", function () {
@@ -91,7 +93,7 @@
     //    3. evaluate the winner
         let result = EvaluteTheWinner(player1Cards, player2Cards);
     //    4. display the winner
-        console.log(result);
+        gameResult.innerHTML = result;
     });
 
     // distributeCards between two players.
