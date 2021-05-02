@@ -57,12 +57,30 @@ function EvaluteTheWinner(player1Cards, player2Cards){
         default:
             let player1 = getHightestCard(player1Cards) 
             let player2 = getHightestCard(player2Cards)
-            if (player1 > player2){
-                return "player 1 win"
-            } else if (player2 > player1){
-                return "player 2 win"
+            // TODO: work on finer logic
+            if (player1[2] == player2[2]){
+                if (player1[1] == player2[1]){
+                    if (player1[0] == player2[0]){
+                        return "draw";
+                    } else {
+                        if (player1[0] > player2[0]){
+                            return "player 1 win"
+                        }
+                        return "player 2 win"
+                    }
+                } else {
+                    if (player1[1] > player2[1]){
+                        return "player 1 win"
+                    }
+                    return "player 2 win"
+
+                }
             } else {
-                return "draw";
+                
+                if (player1[2] > player2[2]){
+                    return "player 1 win"
+                }
+                return "player 2 win"
             }
     }
 
@@ -153,7 +171,7 @@ function getHightestCard(playerCards){
         return 0;
     });
 
-    return cardIndex[2];
+    return cardIndex;
 }
 
 // helperCheckInSuit check if the card in same suit.
