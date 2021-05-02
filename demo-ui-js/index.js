@@ -1,5 +1,6 @@
 const express = require('express');
 const ws = require('ws');
+const game = require('./game/game');
 
 const app = express();
 
@@ -9,9 +10,12 @@ const wsServer = new ws.Server({ noServer: true });
 
 wsServer.on('connection', socket => {
   
-    socket.on('message', message => console.log(message));
+    socket.on('message', message = function(data){
+      game.decodeGameState(data);
+      socket.send('message from server');
+    });
     // semd message back to server.
-    socket.send('message from server');
+    socket.send('GLOBAL MESSAGE');
 });
 
 // `server` is a vanilla Node.js HTTP server, so use
