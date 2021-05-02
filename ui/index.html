@@ -89,8 +89,9 @@
     //    2. display the board
         displayCardsToPlayer(player1Cards, player2Cards);
     //    3. evaluate the winner
-
+        let result = EvaluteTheWinner(player1Cards, player2Cards);
     //    4. display the winner
+        console.log(result);
     });
 
     // distributeCards between two players.
