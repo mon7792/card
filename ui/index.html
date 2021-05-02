@@ -74,6 +74,7 @@
 </div>
 
 <script src="js/card.js" type="application/javascript"></script>
+<script src="js/index.js" type="application/javascript"></script>
 <script type="application/javascript">
     // variable
     let player1Cards = [];
@@ -94,6 +95,8 @@
         let result = EvaluteTheWinner(player1Cards, player2Cards);
     //    4. display the winner
         gameResult.innerHTML = result;
+        // 5. TEST WEBSOCKET.
+        InitiateSession();
     });
 
     // distributeCards between two players.

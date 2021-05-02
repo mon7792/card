@@ -6,8 +6,12 @@ const app = express();
 // Set up a headless websocket server that prints any
 // events that come in.
 const wsServer = new ws.Server({ noServer: true });
+
 wsServer.on('connection', socket => {
-  socket.on('message', message => console.log(message));
+  
+    socket.on('message', message => console.log(message));
+    // semd message back to server.
+    socket.send('message from server');
 });
 
 // `server` is a vanilla Node.js HTTP server, so use
