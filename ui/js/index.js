@@ -4,7 +4,13 @@
 function InitiateSession(){    
 let ws = new WebSocket("ws://localhost:5000")
 // RECEVING MESSAGE FROM SERVER
-ws.onmessage = function(evt){console.log(evt.data);}
+ws.onmessage = function(evt){
+    let rsp = JSON.parse(evt.data);
+    if (rsp.action == serveGameAction){
+        console.log(rsp.payload.message);
+        displayCardsFromWebSoc(rsp.payload.message);
+    }
+}
 
 // SENDING MESSAGE TO SERVER
 ws.onopen = function(evt){
@@ -31,5 +37,8 @@ newGame["message"] = ""
 newGame["gameId"] = "dummy-game-id"
 newGame["playerId"] = "dummy-player-id"
 
+const startGameAction = "START_GAME";
+const serveGameAction = "SERVE_GAME";
 
-let startGame = {action: "START_GAME", payload: newGame};
+
+let startGame = {action: startGameAction, payload: newGame};

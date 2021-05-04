@@ -8,19 +8,25 @@ const app = express();
 // events that come in.
 const wsServer = new ws.Server({ noServer: true });
 
+let gameStateObj = null;
 wsServer.on('connection', socket => {
   
     socket.on('message', message = function(data){
-      game.decodeGameState(data);
+      gameStateObj = game.decodeGameState(data);
       wsServer.clients.forEach(function each(client){
         if (client !== socket && client.readyState === ws.OPEN) {
           // CLIENT SEND  DATA
           client.send(data);
         }
       });
+      // semd message back to server.
+    if (gameStateObj != null) {
+      let result = game.getResponse(gameStateObj);
+      socket.send(JSON.stringify(result));
+    }
     });
-    // semd message back to server.
-    socket.send('GLOBAL MESSAGE');
+    
+    
 });
 
 // `server` is a vanilla Node.js HTTP server, so use
