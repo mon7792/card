@@ -12,7 +12,12 @@ wsServer.on('connection', socket => {
   
     socket.on('message', message = function(data){
       game.decodeGameState(data);
-      socket.send('message from server');
+      wsServer.clients.forEach(function each(client){
+        if (client !== socket && client.readyState === ws.OPEN) {
+          // CLIENT SEND  DATA
+          client.send(data);
+        }
+      });
     });
     // semd message back to server.
     socket.send('GLOBAL MESSAGE');
