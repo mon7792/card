@@ -9,6 +9,7 @@
 <body>
 <h2>TIN GAME</h2>
 <button id="new-button-id">NEW GAME</button>
+<button id="check-button-id">CHECK</button>
 <div id="game-result"></div>
 <div id="game-table">
     <h4>PLAYER-1</h4>
@@ -71,15 +72,47 @@
             <!-- CARD VALUE END -->
         </div>
     </div>
+    <h4>PLAYER-3 WEBSOCKET</h4>
+    <div class="card">
+        <div class="card-item-websoc" id="1">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number"></div>
+                <div class="card-item-value-suit">
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+        <div class="card-item-websoc" id="2">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number"></div>
+                <div class="card-item-value-suit">
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+        <div class="card-item-websoc" id="3">
+            <!-- CARD VALUE -->
+            <div class="card-item-value">
+                <div class="card-item-value-number"></div>
+                <div class="card-item-value-suit">
+                </div>
+            </div>
+            <!-- CARD VALUE END -->
+        </div>
+    </div>
 </div>
 
 <script src="js/card.js" type="application/javascript"></script>
+<script src="js/index.js" type="application/javascript"></script>
 <script type="application/javascript">
     // variable
     let player1Cards = [];
     let player2Cards = [];
 
     let newButtonID = document.getElementById("new-button-id");
+    let checkButtonID = document.getElementById("check-button-id");
     let cardItems = document.getElementsByClassName("card-item");
     let gameResult = document.getElementById("game-result");
 
@@ -94,6 +127,8 @@
         let result = EvaluteTheWinner(player1Cards, player2Cards);
     //    4. display the winner
         gameResult.innerHTML = result;
+        // 5. TEST WEBSOCKET.
+        InitiateSession();
     });
 
     // distributeCards between two players.
@@ -131,6 +166,23 @@
         cardValue = currentPlayCard[noOfCards%3].Value;
         cardSuit =  currentPlayCard[noOfCards%3].Suit;
         return { cardValue, cardSuit};
+    }
+
+    // displayCardsFromWebSoc appends the card to game board.
+    function displayCardsFromWebSoc(plCard1) {
+        let crdItem = document.getElementsByClassName("card-item-websoc");
+        let i;
+        for (i = 0; i < 3; i++){
+            let cardItem = crdItem[i];
+            let cardDetails = plCard1[i];
+            console.log(cardDetails);
+            // update card in the game board.
+            cardItem.querySelector(".card-item-value-number").innerHTML = cardDetails.Value;
+            cardItem.querySelector(".card-item-value-suit").innerHTML = cardDetails.Suit;
+            
+            // update the color.
+            cardItem.style.backgroundColor = SuitColor.get(cardDetails.cardSuit);
+        }
     }
 
 

@@ -1,5 +1,7 @@
 const express = require('express');
 const ws = require('ws');
+const game = require('./game/game');
+
 const app = express();
 
 let webSocClients = new Map();
@@ -25,8 +27,28 @@ wsServer.on('connection', function (socket, request){
         }
     })
   });
+});
 
 
+let gameStateObj = null;
+wsServer.on('connection', socket => {
+  
+    socket.on('message', message = function(data){
+      gameStateObj = game.decodeGameState(data);
+      wsServer.clients.forEach(function each(client){
+        if (client !== socket && client.readyState === ws.OPEN) {
+          // CLIENT SEND  DATA
+          client.send(data);
+        }
+      });
+      // semd message back to server.
+    if (gameStateObj != null) {
+      let result = game.getResponse(gameStateObj);
+      socket.send(JSON.stringify(result));
+    }
+    });
+    
+    
 });
 
 
