@@ -8,11 +8,26 @@ const serveGameAction = "SERVE_GAME"
 let gameStateStructure = {action: "", payload: {}};
 let gamePayloadStructure = {gameId:"", playerId: "", message:""}
 
+// gameState store the state for the current game.
+let gameState = {
+    gameId: "",
+    player1: {
+        name: "",
+        cards :{},
+    },
+    player2: {
+        name: "",
+        cards :{},
+    },
+    result: "",
+    state: "", // CONNECT,START, IN_PROGRESS, END
+}
+
 
 function decodeGameState(gameState){
     let gameStateObj = JSON.parse(gameState);
     // TODO: verify the structure.
-    if (gameStateObj.action == startGameAction){
+    if (gameStateObj.action === startGameAction){
         console.log(gameStateObj.payload.gameId);
         console.log(gameStateObj.payload.playerId);
     }
@@ -26,7 +41,7 @@ function getResponse(gameStateObj){
     playerCrd.push(crd[0]);
     playerCrd.push(crd[1]);
     playerCrd.push(crd[2]);
-    if (gameStateObj.action == startGameAction){
+    if (gameStateObj.action === startGameAction){
         gameStateObj.action = serveGameAction;
         gameStateObj.payload.message = playerCrd
     }
@@ -35,4 +50,4 @@ function getResponse(gameStateObj){
 }
 
 
-module.exports ={gamestate: "we", decodeGameState, getResponse} ;
+module.exports ={gameState: "we", decodeGameState, getResponse} ;
