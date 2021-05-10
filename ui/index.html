@@ -11,6 +11,14 @@
 <button id="new-button-id">NEW GAME</button>
 <button id="check-button-id">CHECK</button>
 <div id="game-result"></div>
+<div id="game-board">
+    <h2>GAME BOARD:</h2>
+    <div>
+        <button id="start-button-id">START GAME</button>
+    </div>
+    <br>
+    <input type="text" id="game-session-id" /><button id="join-button-id">JOIN GAME</button>
+</div>
 <div id="game-table">
     <h4>PLAYER-1</h4>
     <div class="card">
@@ -186,6 +194,34 @@
     }
 
 
+
+</script>
+<script type="application/javascript">
+    // JS file handles the game registration logic.
+    let startButtonID = document.getElementById("start-button-id");
+    let joinButtonID = document.getElementById("join-button-id");
+    let gameSessionID = document.getElementById("game-session-id");
+
+    // button click event handler.
+    // startButtonID initiate the websocket connection: start the game
+    startButtonID.addEventListener("click", function () {
+        console.log("game started: websocket connection initiated ");
+
+        // disable the game session input
+        const ws = StartSession();
+        console.log(ws);
+        ws.onopen = function(evt){
+            ws.send(JSON.stringify(startGame));
+        }
+    })
+
+    // joinButtonID initiate the websocket connection: with the game ID.
+    joinButtonID.addEventListener("click", function () {
+        console.log("game started: websocket connection initiated: with the gameID");
+        let gameID = gameSessionID.value;
+        console.log(gameID);
+        // disable the game session input
+    })
 
 </script>
 

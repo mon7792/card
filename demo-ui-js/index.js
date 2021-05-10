@@ -6,7 +6,7 @@ const app = express();
 
 let webSocClients = new Map();
 
-const wsServer = new ws.Server({ noServer: true });
+const wsServer = new ws.Server({noServer: true});
 
 // wsServer.on('connection', function (socket, request){
 //   socket.on('message', function (message) {
@@ -32,45 +32,53 @@ const wsServer = new ws.Server({ noServer: true });
 
 let gameStateObj = null;
 wsServer.on('connection', socket => {
-  
-    socket.on('message', message = function(data){
-      gameStateObj = game.decodeGameState(data);
-      wsServer.clients.forEach(function each(client){
-        if (client !== socket && client.readyState === ws.OPEN) {
-          // CLIENT SEND  DATA
-          client.send(data);
+
+    socket.on('message', function (message) {
+        //  DECODE THE MESSAGE
+        gameStateObj = game.decodeGameState(message);
+
+        // HANDLE THE MESSAGE
+        game.handleMessage(gameStateObj)
+
+        // GENERATE THE CONFIRMATION MESSAGE
+        if (gameStateObj != null) {
+            let result = game.getResponse(gameStateObj);
+            socket.send(JSON.stringify(result));
         }
-      });
-      // semd message back to server.
-    if (gameStateObj != null) {
-      let result = game.getResponse(gameStateObj);
-      socket.send(JSON.stringify(result));
-    }
+
+
+        // TODO: enable when the need arises
+        // wsServer.clients.forEach(function each(client) {
+        //     if (client !== socket && client.readyState === ws.OPEN) {
+        //         // CLIENT SEND  DATA
+        //         client.send(data);
+        //     }
+        // });
+
+
     });
-    
-    
+
+
 });
-
-
 
 
 // `server` is a vanilla Node.js HTTP server, so use
 const server = app.listen(5000);
 server.on('upgrade', (request, socket, head) => {
-  wsServer.handleUpgrade(request, socket, head, socket => {
-    wsServer.emit('connection', socket, request);
-  });
+    wsServer.handleUpgrade(request, socket, head, socket => {
+        wsServer.emit('connection', socket, request);
+    });
 });
 
 
 // HELPER FUNCTION
 function makeid(length) {
-  var result           = [];
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-    result.push(characters.charAt(Math.floor(Math.random() *
-        charactersLength)));
-  }
-  return result.join('');
+    var result = [];
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result.push(characters.charAt(Math.floor(Math.random() *
+            charactersLength)));
+    }
+    return result.join('');
 }
