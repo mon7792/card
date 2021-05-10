@@ -8,26 +8,26 @@ let webSocClients = new Map();
 
 const wsServer = new ws.Server({ noServer: true });
 
-wsServer.on('connection', function (socket, request){
-  socket.on('message', function (message) {
-
-    //TODO: register the user
-    if (message === "register"){
-      let usr = makeid(6);
-      webSocClients.set(socket,usr)
-      socket.send(`Welcome user: ${usr}`);
-    }
-
-    let msg = `${webSocClients.get(socket)} : ${message}`
-    console.log(msg);
-    wsServer.clients.forEach(function each(client) {
-      // console.log(client)
-        if (client !== socket && client.readyState === ws.OPEN){
-          client.send(msg);
-        }
-    })
-  });
-});
+// wsServer.on('connection', function (socket, request){
+//   socket.on('message', function (message) {
+//
+//     //TODO: register the user
+//     if (message === "register"){
+//       let usr = makeid(6);
+//       webSocClients.set(socket,usr)
+//       socket.send(`Welcome user: ${usr}`);
+//     }
+//
+//     let msg = `${webSocClients.get(socket)} : ${message}`
+//     console.log(msg);
+//     wsServer.clients.forEach(function each(client) {
+//       // console.log(client)
+//         if (client !== socket && client.readyState === ws.OPEN){
+//           client.send(msg);
+//         }
+//     })
+//   });
+// });
 
 
 let gameStateObj = null;
