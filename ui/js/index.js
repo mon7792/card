@@ -6,8 +6,8 @@ const ws = new WebSocket("ws://localhost:5000")
 // RECEVING MESSAGE FROM SERVER
 ws.onmessage = function(evt){
     let rsp = JSON.parse(evt.data);
-    if (rsp.action == serveGameAction){
-        console.log(rsp.payload.message);
+    if (rsp.action === serveGameAction){
+        console.log(rsp.payload);
         displayCardsFromWebSoc(rsp.payload.message);
     }
 }
@@ -35,8 +35,8 @@ function StartSession(){
     ws.onmessage = function(evt){
         let rsp = JSON.parse(evt.data);
         if (rsp.action === serveGameAction){
-            console.log(rsp.payload.message);
-            displayCardsFromWebSoc(rsp.payload.message);
+            console.log(rsp.payload);
+            displayCardsFromWebSoc(rsp.payload.cards);
         }
     }
 
@@ -68,6 +68,8 @@ newGame["playerId"] = "dummy-player-id"
 
 const startGameAction = "START_GAME";
 const serveGameAction = "SERVE_GAME";
+const joinGameAction = "JOIN_GAME";
 
 
 let startGame = {action: startGameAction, payload: newGame};
+let joinGame = {action: joinGameAction, payload: {}};

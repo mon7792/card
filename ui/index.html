@@ -219,8 +219,21 @@
     joinButtonID.addEventListener("click", function () {
         console.log("game started: websocket connection initiated: with the gameID");
         let gameID = gameSessionID.value;
-        console.log(gameID);
-        // disable the game session input
+
+        // prepare the JOIN game session
+        let jGame = {}
+        jGame["message"] = ""
+        jGame["gameId"] = gameID
+        jGame["playerId"] = "dummy-player-id"
+        let jg = joinGame;
+        jg.payload = jGame;
+
+        const ws = StartSession();
+        console.log(ws);
+        ws.onopen = function(evt){
+            ws.send(JSON.stringify(jg));
+        }
+
     })
 
 </script>

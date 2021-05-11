@@ -42,7 +42,7 @@ wsServer.on('connection', socket => {
 
         // GENERATE THE CONFIRMATION MESSAGE
         if (gameStateObj != null) {
-            let result = game.getResponse(gameStateObj);
+            let [all ,result] = game.getResponse(gameStateObj);
             socket.send(JSON.stringify(result));
         }
 

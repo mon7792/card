@@ -6,6 +6,7 @@ let gameSession = new Map();
 const startGameAction = "START_GAME"
 const serveGameAction = "SERVE_GAME"
 const waitGameAction = "WAIT_GAME"
+const joinGameAction = "JOIN_GAME"
 
 // gameStateStructure format in which game state is transferred between the client and server.
 let gameStateStructure = {action: "", payload: {}};
@@ -40,20 +41,35 @@ function decodeGameState(gameState){
     return gameStateObj
 }
 
+// getResponse return the respnse to all, single
 function getResponse(gameStateObj){
     console.log(gameSession.get("dummy-1"))
     //
     if (gameStateObj.action === startGameAction){
         gameStateObj.action = waitGameAction;
         gameStateObj.payload = {}
+
+        return [ false, gameStateObj]
     }
 
-    return gameStateObj
+    if (gameStateObj.action === joinGameAction){
+        gameStateObj.action = serveGameAction;
+        gameStateObj.payload = gameSession.get("dummy-1").player2
+
+        return [true, gameStateObj]
+    }
+
+    return [false, gameStateObj]
 }
 
 function handleMessage(gameStateObj) {
     if (gameStateObj.action === startGameAction){
         registerGame()
+    }
+
+    if (gameStateObj.action === joinGameAction){
+        // append the card in the second player
+        joinGame(gameStateObj.payload.gameId);
     }
 }
 
@@ -74,6 +90,17 @@ function registerGame(){
     gameState.player1.cards = playerCrd
 
     gameSession.set("dummy-1", gameState);
+}
+
+// joinGame adds the cards for 2nd player.
+function joinGame(gameID){
+    let gSession = gameSession.get(gameID)
+    gSession.player2.name = "player-2"
+    gSession.player2.cards.push(gSession.deck[3])
+    gSession.player2.cards.push(gSession.deck[4])
+    gSession.player2.cards.push(gSession.deck[5])
+
+    gameSession.set("dummy-1", gSession);
 }
 
 
