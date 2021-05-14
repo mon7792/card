@@ -1,6 +1,7 @@
 const express = require('express');
 const ws = require('ws');
 const game = require('./game/game');
+const ps = require('./pubsub/pubsub');
 
 const app = express();
 
@@ -29,7 +30,7 @@ const wsServer = new ws.Server({noServer: true});
 //   });
 // });
 
-
+const pubSUb = new ps.PubSubManager()
 let gameStateObj = null;
 wsServer.on('connection', socket => {
 
