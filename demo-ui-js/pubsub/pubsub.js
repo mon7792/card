@@ -12,11 +12,17 @@ class PubSubManager{
             serve_card: {
                 message: '',
                 subscribers: [],
+            },
+            // TODO: start from here.
+            gamID :{
+
             }
         }
         // THIS WILL 3rd Party Broker
         this.brokerID = setInterval(()=>{ console.log("PUBSUB manager")}, 1000)
     }
+
+    newChannel
 
     // subscribe to a channel
     subscribe(subscriber, channel){

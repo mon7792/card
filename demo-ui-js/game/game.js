@@ -103,5 +103,39 @@ function joinGame(gameID){
     gameSession.set("dummy-1", gSession);
 }
 
+// SOLID APPROACH.
 
-module.exports ={gameState: "we", decodeGameState, getResponse, handleMessage} ;
+class Game{
+
+    getGameID(gameState){
+        return gameState.payload.gameId
+    }
+    decodeState(message){
+        let gameState = null;
+        try {
+            gameState = JSON.parse(message)
+        } catch (e) {
+            console.error(`unable to decode the message: ${message} | error: ${e}`)
+            return gameState
+        }
+
+        // TODO: validate the message
+        return gameState
+    }
+
+    // registerUser return boolean operator based on the gameState Msg
+    registerUser(gameState){
+        return gameState.action === startGameAction || gameState.action === joinGameAction ;
+    }
+
+    newGame(gameState){
+        return gameState.action === startGameAction
+    }
+
+    joinGame(gameState){
+        return gameState.action === joinGameAction
+    }
+}
+
+
+module.exports ={decodeGameState, getResponse, handleMessage, Game} ;

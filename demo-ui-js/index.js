@@ -2,10 +2,9 @@ const express = require('express');
 const ws = require('ws');
 const game = require('./game/game');
 const ps = require('./pubsub/pubsub');
+const room = require('./websoc/websoc');
 
 const app = express();
-
-let webSocClients = new Map();
 
 const wsServer = new ws.Server({noServer: true});
 
@@ -30,13 +29,34 @@ const wsServer = new ws.Server({noServer: true});
 //   });
 // });
 
-const pubSUb = new ps.PubSubManager()
+const pubSub = new ps.PubSubManager();
+const gameRoom = new room.Room();
+const gameCore = new game.Game();
 let gameStateObj = null;
 wsServer.on('connection', socket => {
-
     socket.on('message', function (message) {
-        //  DECODE THE MESSAGE
-        gameStateObj = game.decodeGameState(message);
+
+        // DECODE THE MESSAGE
+        gameStateObj = gameCore.decodeState(message);
+        if (gameStateObj === null){
+            return
+        }
+
+        switch (true) {
+            case gameCore.newGame(gameStateObj):
+                //    create a new room
+                gameRoom.newRoom()
+                //
+                break;
+            case  gameCore.joinGame(gameStateObj):
+                //    check and join the room
+                let gameID = gameCore.getGameID(gameStateObj);
+                if(!gameRoom.checkRoomExist(gameID)){
+                    return;
+                }
+                gameRoom.addMemberToRoom(gameID, socket);
+                break;
+        }
 
         // HANDLE THE MESSAGE
         game.handleMessage(gameStateObj)
