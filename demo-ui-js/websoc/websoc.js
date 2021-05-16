@@ -7,6 +7,7 @@ class Room {
     newRoom(){
         let roomID = makeid(5)
         this.room.set(roomID, []);
+        return roomID
     }
 
     deleteRoom(roomID){
@@ -29,6 +30,10 @@ class Room {
 
     checkRoomExist(roomID){
         return this.room.has(roomID)
+    }
+
+    getMemberInRoom(roomID){
+        return this.room.get(roomID)
     }
 }
 

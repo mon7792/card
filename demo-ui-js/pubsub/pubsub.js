@@ -1,5 +1,5 @@
 class PubSubManager{
-    constructor(){
+    constructor(handleMessage){
         this.channels = {
             start_game: {
                 message: '',
@@ -18,11 +18,16 @@ class PubSubManager{
 
             }
         }
+        this.handleMessage = handleMessage
         // THIS WILL 3rd Party Broker
-        this.brokerID = setInterval(()=>{ console.log("PUBSUB manager")}, 1000)
+        this.brokerID = setInterval(()=>{ this.broker()}, 1000)
     }
 
-    newChannel
+    createChannel(channelName){
+        let newChannel = {}
+        newChannel[channelName] = { message:'', subscribers: []}
+        this.channels = Object.assign(this.channels, newChannel)
+    }
 
     // subscribe to a channel
     subscribe(subscriber, channel){
@@ -32,11 +37,11 @@ class PubSubManager{
 
     // publish to a channel
     publisher(publisher, channel, message){
-        this.channels[channel].message.push(message);
+        this.channels[channel].message = message;
     }
 
     // broker: this work will be done by redis
-    broker(handleMessage){
+    broker(){
         for (const channel in this.channels){
             if (this.channels.hasOwnProperty(channel)){
                 const channelObj = this.channels[channel];
@@ -44,7 +49,7 @@ class PubSubManager{
                 if (channelObj.message){
                     console.log(`found message: ${channelObj.message} in ${channel}`);
                     //  TODO: evaluate the message to sent
-                    handleMessage(channelObj.message, channelObj.subscribers);
+                    this.handleMessage(channelObj.message, channelObj.subscribers);
                     channelObj.message = '';
                 }
 

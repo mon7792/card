@@ -135,6 +135,28 @@ class Game{
     joinGame(gameState){
         return gameState.action === joinGameAction
     }
+
+    // registerGame creates a new
+    registerGame(gameID){
+        let crd = card.cardDeck;
+        card.shuffle(crd);
+        let playerCrd = [];
+        playerCrd.push(crd[0]);
+        playerCrd.push(crd[1]);
+        playerCrd.push(crd[2]);
+
+        let gameState = defGameState;
+        gameState.deck = crd;
+        gameState.gameId = gameID;
+        gameState.player1.name = "player1"
+        gameState.player1.cards = playerCrd
+        return gameState
+    }
+
+    updateGameState(gameState, gameID){
+        gameState.payload.gameId =  gameID
+        return gameState
+    }
 }
 
 

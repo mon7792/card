@@ -8,28 +8,14 @@ const app = express();
 
 const wsServer = new ws.Server({noServer: true});
 
-// wsServer.on('connection', function (socket, request){
-//   socket.on('message', function (message) {
-//
-//     //TODO: register the user
-//     if (message === "register"){
-//       let usr = makeid(6);
-//       webSocClients.set(socket,usr)
-//       socket.send(`Welcome user: ${usr}`);
-//     }
-//
-//     let msg = `${webSocClients.get(socket)} : ${message}`
-//     console.log(msg);
-//     wsServer.clients.forEach(function each(client) {
-//       // console.log(client)
-//         if (client !== socket && client.readyState === ws.OPEN){
-//           client.send(msg);
-//         }
-//     })
-//   });
-// });
+function handleMessage(message, subscriber){
+    console.log(message);
+}
 
-const pubSub = new ps.PubSubManager();
+// gameStore store all the game state: this will be shifted to another 
+let gameStore = new Map();
+
+const pubSub = new ps.PubSubManager(handleMessage);
 const gameRoom = new room.Room();
 const gameCore = new game.Game();
 let gameStateObj = null;
@@ -44,9 +30,30 @@ wsServer.on('connection', socket => {
 
         switch (true) {
             case gameCore.newGame(gameStateObj):
-                //    create a new room
-                gameRoom.newRoom()
-                //
+                // create a new room
+                let roomID = gameRoom.newRoom();
+
+                // add the player to room
+                gameRoom.addMemberToRoom(roomID, socket)
+                
+                // create a game store.
+                let gamestate = gameCore.registerGame(roomID);
+                // update the message.
+                gameStateObj = gameCore.updateGameState(gameStateObj, roomID)
+
+                // store in game store
+                gameStore.set(roomID, gamestate)
+
+                // create a pub-sub channel for the room
+                pubSub.createChannel(roomID)
+
+                //  assign subscriber
+                pubSub.subscribe(socket, roomID)
+
+                // publish to channel
+                pubSub.publisher(socket, roomID,gameStateObj)
+                
+
                 break;
             case  gameCore.joinGame(gameStateObj):
                 //    check and join the room
@@ -54,18 +61,27 @@ wsServer.on('connection', socket => {
                 if(!gameRoom.checkRoomExist(gameID)){
                     return;
                 }
+
+                // add sub to the room. 
                 gameRoom.addMemberToRoom(gameID, socket);
+
+                //  assign subscriber
+                pubSub.subscribe(socket, roomID)
+
+                // publish to channel
+                pubSub.publisher(socket, roomID,gameStateObj)
+
                 break;
         }
 
         // HANDLE THE MESSAGE
-        game.handleMessage(gameStateObj)
+        // game.handleMessage(gameStateObj)
 
         // GENERATE THE CONFIRMATION MESSAGE
-        if (gameStateObj != null) {
-            let [all ,result] = game.getResponse(gameStateObj);
-            socket.send(JSON.stringify(result));
-        }
+        // if (gameStateObj != null) {
+        //     let [all ,result] = game.getResponse(gameStateObj);
+        //     socket.send(JSON.stringify(result));
+        // }
 
 
         // TODO: enable when the need arises
@@ -91,15 +107,23 @@ server.on('upgrade', (request, socket, head) => {
     });
 });
 
-
-// HELPER FUNCTION
-function makeid(length) {
-    var result = [];
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result.push(characters.charAt(Math.floor(Math.random() *
-            charactersLength)));
-    }
-    return result.join('');
-}
+// wsServer.on('connection', function (socket, request){
+//   socket.on('message', function (message) {
+//
+//     //TODO: register the user
+//     if (message === "register"){
+//       let usr = makeid(6);
+//       webSocClients.set(socket,usr)
+//       socket.send(`Welcome user: ${usr}`);
+//     }
+//
+//     let msg = `${webSocClients.get(socket)} : ${message}`
+//     console.log(msg);
+//     wsServer.clients.forEach(function each(client) {
+//       // console.log(client)
+//         if (client !== socket && client.readyState === ws.OPEN){
+//           client.send(msg);
+//         }
+//     })
+//   });
+// });
