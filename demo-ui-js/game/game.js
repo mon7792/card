@@ -153,8 +153,9 @@ class Game{
         return gameState
     }
 
-    updateGameState(gameState, gameID){
+    updateGameState(gameState, gameID, memberID){
         gameState.payload.gameId =  gameID
+        gameState.payload.playerId =  memberID
         return gameState
     }
 }

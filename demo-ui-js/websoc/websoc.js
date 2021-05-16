@@ -2,6 +2,14 @@ class Room {
     constructor(){
         // room will "game-id": [ws-1,ws-2]
         this.room = new Map();
+        // member will "member-id": ws-1
+        this.member = new Map();
+    }
+
+    registerMember(socket){
+        let memberID = makeid(6)
+        this.member.set(memberID, socket)
+        return memberID
     }
 
     newRoom(){

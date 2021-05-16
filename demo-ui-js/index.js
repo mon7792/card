@@ -8,8 +8,10 @@ const app = express();
 
 const wsServer = new ws.Server({noServer: true});
 
-function handleMessage(message, subscriber){
+// handleMessage is the core for handling the response back to websoc client.
+function handleMessage(message, subscribers){
     console.log(message);
+
 }
 
 // gameStore store all the game state: this will be shifted to another 
@@ -35,11 +37,14 @@ wsServer.on('connection', socket => {
 
                 // add the player to room
                 gameRoom.addMemberToRoom(roomID, socket)
+
+                // make a player entry
+                let memberID = gameRoom.registerMember(socket)
                 
                 // create a game store.
                 let gamestate = gameCore.registerGame(roomID);
                 // update the message.
-                gameStateObj = gameCore.updateGameState(gameStateObj, roomID)
+                gameStateObj = gameCore.updateGameState(gameStateObj, roomID, memberID)
 
                 // store in game store
                 gameStore.set(roomID, gamestate)
