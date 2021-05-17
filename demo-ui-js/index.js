@@ -114,11 +114,16 @@ wsServer.on('connection', socket => {
                 // add sub to the room. 
                 gameRoom.addMemberToRoom(gameID, socket);
 
+                // make a player entry
+                let member2ID = gameRoom.registerMember(socket)
+
+                gameStateObj = gameCore.updateGameState(gameStateObj, gameID, member2ID)
+
                 //  assign subscriber
-                pubSub.subscribe(socket, roomID)
+                pubSub.subscribe(socket, gameID)
 
                 // publish to channel
-                pubSub.publisher(socket, roomID,JSON.stringify(gameStateObj))
+                pubSub.publisher(socket, gameID,JSON.stringify(gameStateObj))
 
                 break;
         }

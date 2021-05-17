@@ -150,6 +150,14 @@ class Game{
         gameState.gameId = gameID;
         gameState.player1.name = "player1"
         gameState.player1.cards = playerCrd
+
+        let player2Crd = [];
+        player2Crd.push(crd[3]);
+        player2Crd.push(crd[4]);
+        player2Crd.push(crd[5]);
+
+        gameState.player2.name = "player2"
+        gameState.player2.cards = player2Crd
         return gameState
     }
 
