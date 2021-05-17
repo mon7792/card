@@ -5,21 +5,64 @@ const ps = require('./pubsub/pubsub');
 const room = require('./websoc/websoc');
 
 const app = express();
-
 const wsServer = new ws.Server({noServer: true});
+
+// gameStore store all the game state: this will be shifted to another 
+let gameStore = new Map();
+const gameRoom = new room.Room();
+const gameCore = new game.Game();
+
 
 // handleMessage is the core for handling the response back to websoc client.
 function handleMessage(message, subscribers){
     console.log(message);
+    // decode the message.
+    gameStateObj = gameCore.decodeState(message);
+    if (gameStateObj === null){
+        return
+    }
+
+    switch (true) {
+        case gameCore.newGame(gameStateObj):
+
+        gameStateObj.action = "SERVE_GAME";
+        let memID = gameStateObj.payload.playerId
+        gameStateObj.payload = gameStore.get(gameStateObj.payload.gameId).player1
+
+        let client = gameRoom.getMember(memID)
+        if (client.readyState === ws.OPEN) {
+                client.send(JSON.stringify(gameStateObj));
+        }
+
+        
+        break;
+
+        case  gameCore.joinGame(gameStateObj):
+            gameStateObj.action = "SERVE_GAME";
+            let mem2ID = gameStateObj.payload.playerId
+            gameStateObj.payload = gameStore.get(gameStateObj.payload.gameId).player2
+
+            let client2 = gameRoom.getMember(mem2ID)
+            if (client2.readyState === ws.OPEN) {
+                    client2.send(JSON.stringify(gameStateObj));
+            }
+
+        break;
+    }
+
+
+
+    // check the operation that must be done.
+
+
+    // send the message.
 
 }
 
-// gameStore store all the game state: this will be shifted to another 
-let gameStore = new Map();
+
 
 const pubSub = new ps.PubSubManager(handleMessage);
-const gameRoom = new room.Room();
-const gameCore = new game.Game();
+
 let gameStateObj = null;
 wsServer.on('connection', socket => {
     socket.on('message', function (message) {
@@ -56,11 +99,12 @@ wsServer.on('connection', socket => {
                 pubSub.subscribe(socket, roomID)
 
                 // publish to channel
-                pubSub.publisher(socket, roomID,gameStateObj)
+                pubSub.publisher(socket, roomID, JSON.stringify(gameStateObj))
                 
 
                 break;
             case  gameCore.joinGame(gameStateObj):
+                //  TODO: work from here.
                 //    check and join the room
                 let gameID = gameCore.getGameID(gameStateObj);
                 if(!gameRoom.checkRoomExist(gameID)){
@@ -74,7 +118,7 @@ wsServer.on('connection', socket => {
                 pubSub.subscribe(socket, roomID)
 
                 // publish to channel
-                pubSub.publisher(socket, roomID,gameStateObj)
+                pubSub.publisher(socket, roomID,JSON.stringify(gameStateObj))
 
                 break;
         }

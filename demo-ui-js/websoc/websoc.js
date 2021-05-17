@@ -12,6 +12,10 @@ class Room {
         return memberID
     }
 
+    getMember(memberID){
+        return this.member.get(memberID);
+    }
+
     newRoom(){
         let roomID = makeid(5)
         this.room.set(roomID, []);
