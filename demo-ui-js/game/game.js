@@ -7,6 +7,7 @@ const startGameAction = "START_GAME"
 const serveGameAction = "SERVE_GAME"
 const waitGameAction = "WAIT_GAME"
 const joinGameAction = "JOIN_GAME"
+const checkGameAction = "CHECK_GAME"
 
 // gameStateStructure format in which game state is transferred between the client and server.
 let gameStateStructure = {action: "", payload: {}};
@@ -134,6 +135,10 @@ class Game{
 
     joinGame(gameState){
         return gameState.action === joinGameAction
+    }
+
+    checkGame(gameState){
+        return gameState.action === checkGameAction
     }
 
     // registerGame creates a new

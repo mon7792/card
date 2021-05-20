@@ -69,7 +69,9 @@ newGame["playerId"] = "dummy-player-id"
 const startGameAction = "START_GAME";
 const serveGameAction = "SERVE_GAME";
 const joinGameAction = "JOIN_GAME";
+const checkGameAction = "CHECK_GAME";
 
 
 let startGame = {action: startGameAction, payload: newGame};
 let joinGame = {action: joinGameAction, payload: {}};
+let checkGame = {action: checkGameAction, payload: {}};

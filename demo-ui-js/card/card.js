@@ -97,6 +97,7 @@ function EvaluteTheWinner(player1Cards, player2Cards){
 // evaluateCardsCategory checks in which category the players card belong.
 function evaluateCardsCategory(playerCards){
     let category;
+    console.log(playerCards);
 
     switch(true){
         case (checkCardSameNumber(playerCards) == true):
@@ -197,4 +198,4 @@ function helperCheckInSeries(cardNo1,cardNo2,cardNo3){
 }
 
 
-module.exports = { cardDeck :getNewDeck(), shuffle}
+module.exports = { cardDeck :getNewDeck(), shuffle, EvaluteTheWinner}

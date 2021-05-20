@@ -15,6 +15,7 @@
     <h2>GAME BOARD:</h2>
     <div>
         <button id="start-button-id">START GAME</button>
+        <button id="check-card-button-id">CHECK</button>
     </div>
     <br>
     <input type="text" id="game-session-id" /><button id="join-button-id">JOIN GAME</button>
@@ -201,6 +202,9 @@
     let startButtonID = document.getElementById("start-button-id");
     let joinButtonID = document.getElementById("join-button-id");
     let gameSessionID = document.getElementById("game-session-id");
+    let checkCardButtonID = document.getElementById("check-card-button-id");
+    let gameSessID="";
+    let ws;
 
     // button click event handler.
     // startButtonID initiate the websocket connection: start the game
@@ -208,7 +212,7 @@
         console.log("game started: websocket connection initiated ");
 
         // disable the game session input
-        const ws = StartSession();
+        ws = StartSession();
         console.log(ws);
         ws.onopen = function(evt){
             ws.send(JSON.stringify(startGame));
@@ -219,7 +223,7 @@
     joinButtonID.addEventListener("click", function () {
         console.log("game started: websocket connection initiated: with the gameID");
         let gameID = gameSessionID.value;
-
+        gameSessID = gameID;
         // prepare the JOIN game session
         let jGame = {}
         jGame["message"] = ""
@@ -228,12 +232,37 @@
         let jg = joinGame;
         jg.payload = jGame;
 
-        const ws = StartSession();
+        ws = StartSession();
         console.log(ws);
         ws.onopen = function(evt){
             ws.send(JSON.stringify(jg));
         }
 
+    })
+
+    // checkCardButtonID checks who won.
+    checkCardButtonID.addEventListener("click", function () {
+
+        console.log("check button clicked");
+        // console.log("game started: websocket connection initiated ");
+        //
+        // // disable the game session input
+        // const ws = StartSession();
+        // console.log(ws);
+        // ws.onopen = function(evt){
+        //     ws.send(JSON.stringify(startGame));
+        // }
+        let jGame = {}
+        jGame["message"] = ""
+        jGame["gameId"] = gameSessID
+        jGame["playerId"] = "dummy-player-id"
+        let ckGame = checkGame;
+        ckGame.payload = jGame;
+        console.log(ckGame);
+        ws = StartSession();
+        ws.onopen = function(evt){
+            ws.send(JSON.stringify(ckGame));
+        }
     })
 
 </script>

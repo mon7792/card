@@ -3,6 +3,7 @@ const ws = require('ws');
 const game = require('./game/game');
 const ps = require('./pubsub/pubsub');
 const room = require('./websoc/websoc');
+const crd = require('./card/card');
 
 const app = express();
 const wsServer = new ws.Server({noServer: true});
@@ -48,6 +49,17 @@ function handleMessage(message, subscribers){
             }
 
         break;
+
+        case gameCore.checkGame(gameStateObj):
+            // send message to all the client
+            let gmState = gameStore.get(gameStateObj.payload.gameId)
+            let ply1 = gmState.player1.cards
+            let ply2 = gmState.player2.cards
+
+            let result = crd.EvaluteTheWinner(ply1, ply2)
+            console.log(result);
+
+            break;
     }
 
 
@@ -124,6 +136,16 @@ wsServer.on('connection', socket => {
 
                 // publish to channel
                 pubSub.publisher(socket, gameID,JSON.stringify(gameStateObj))
+
+                break;
+
+            case gameCore.checkGame(gameStateObj):
+                let gamID = gameCore.getGameID(gameStateObj);
+                if(!gameRoom.checkRoomExist(gamID)){
+                    return;
+                }
+
+                pubSub.publisher(socket, gamID,JSON.stringify(gameStateObj))
 
                 break;
         }
