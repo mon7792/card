@@ -6,6 +6,33 @@
 </head>
 <body>
     <h1>Welcome to coin demo</h1>
+    <h1>Pot: <span id="current-pot-size-id"></span></h1>
+    <!-- Player panel start-->
+    <div>
+        <!-- player 1 start -->
+        <div>
+            <h2>Player 1</h2>
+            <label for="player-1-stake-input-id"></label><input id="player-1-stake-input-id" type="number" placeholder="enter stake" />
+            <button id="player-1-stake-button-id">Stake</button>
+        </div>
+        <!-- player 1 end -->
+
+        <!-- player 2 start -->
+        <div>
+            <h2>Player 2</h2>
+            <label for="player-2-stake-input-id"></label><input id="player-2-stake-input-id" type="number" placeholder="enter stake" />
+            <button id="player-2-stake-button-id">Stake</button>
+        </div>
+        <!-- player 2 end -->
+    </div>
+    <!-- Player panel end-->
+    <!-- result panel start -->
+    <div>
+        <h2>Result</h2>
+        <h4 id="result-id"></h4>
+        <button id="result-check-button-id">CHECK</button>
+    </div>
+    <!-- result panel end -->
     <script src="static/index.js"></script>
 </body>
 </html>
