@@ -1,1 +1,3 @@
-console.log('index');
+"use strict";
+
+console.log("ui");
