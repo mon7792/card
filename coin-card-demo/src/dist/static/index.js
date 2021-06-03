@@ -23,12 +23,24 @@ function determineWinner() {
 
 
 var player1Input = document.getElementById("player-1-stake-input-id");
+var player1CoinField = document.getElementById("player-1-coin-id"); // player1Button
+
 var player1StakeButton = document.getElementById("player-1-stake-button-id");
-var player1CoinField = document.getElementById("player-1-coin-id"); // player 2
+var player1BlindButton = document.getElementById("player-1-blind-button-id");
+var player1CheckButton = document.getElementById("player-1-check-button-id");
+var player1RaiseButton = document.getElementById("player-1-raise-button-id");
+var player1ShowButton = document.getElementById("player-1-show-button-id");
+var player1FlopButton = document.getElementById("player-1-flop-button-id"); // player 2
 
 var player2Input = document.getElementById("player-2-stake-input-id");
+var player2CoinField = document.getElementById("player-2-coin-id"); // player1Button
+
 var player2StakeButton = document.getElementById("player-2-stake-button-id");
-var player2CoinField = document.getElementById("player-2-coin-id"); // game
+var player2BlindButton = document.getElementById("player-2-blind-button-id");
+var player2CheckButton = document.getElementById("player-2-check-button-id");
+var player2RaiseButton = document.getElementById("player-2-raise-button-id");
+var player2ShowButton = document.getElementById("player-2-show-button-id");
+var player2FlopButton = document.getElementById("player-2-flop-button-id"); // game
 
 var newGameButton = document.getElementById('new-game-button-id');
 var resultCheckButton = document.getElementById('result-check-button-id');

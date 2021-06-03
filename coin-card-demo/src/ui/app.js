@@ -29,13 +29,28 @@ function determineWinner(){
 
 // player 1
 let player1Input = document.getElementById("player-1-stake-input-id");
-let player1StakeButton = document.getElementById("player-1-stake-button-id");
 let player1CoinField = document.getElementById("player-1-coin-id");
+
+// player1Button
+let player1StakeButton = document.getElementById("player-1-stake-button-id");
+let player1BlindButton = document.getElementById("player-1-blind-button-id");
+let player1CheckButton = document.getElementById("player-1-check-button-id");
+let player1RaiseButton = document.getElementById("player-1-raise-button-id");
+let player1ShowButton = document.getElementById("player-1-show-button-id");
+let player1FlopButton = document.getElementById("player-1-flop-button-id");
+
 
 // player 2
 let player2Input = document.getElementById("player-2-stake-input-id");
-let player2StakeButton = document.getElementById("player-2-stake-button-id");
 let player2CoinField = document.getElementById("player-2-coin-id");
+
+// player1Button
+let player2StakeButton = document.getElementById("player-2-stake-button-id");
+let player2BlindButton = document.getElementById("player-2-blind-button-id");
+let player2CheckButton = document.getElementById("player-2-check-button-id");
+let player2RaiseButton = document.getElementById("player-2-raise-button-id");
+let player2ShowButton = document.getElementById("player-2-show-button-id");
+let player2FlopButton = document.getElementById("player-2-flop-button-id");
 
 // game
 let newGameButton = document.getElementById('new-game-button-id');
