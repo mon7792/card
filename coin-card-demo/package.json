@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "server-start": "nodemon --exec babel-node src/server/app.js",
     "ui-start": "babel src/ui/app.js --out-file src/dist/static/index.js"
   },
@@ -19,6 +19,11 @@
     "@babel/core": "^7.14.3",
     "@babel/node": "^7.14.2",
     "@babel/preset-env": "^7.14.2",
+    "babel-jest": "^27.0.2",
+    "jest": "^27.0.4",
     "nodemon": "^2.0.7"
+  },
+  "jest": {
+    "verbose": true
   }
 }

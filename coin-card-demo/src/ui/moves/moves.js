@@ -2,13 +2,13 @@
  * moves evaluates the current allowed moves
  */
 
-const BLIND = "BLIND";
-const CHECK = "CHECK";
-const RAISE = "RAISE";
-const SHOW = "CHECK";
-const FLOP = "FLOP";
+export const BLIND = "BLIND";
+export const CHECK = "CHECK";
+export const RAISE = "RAISE";
+export const SHOW = "CHECK";
+export const FLOP = "FLOP";
 
-class Moves {
+export class Moves {
     constructor(){
         this.blind = true;
         this.check = true;
