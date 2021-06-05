@@ -12,8 +12,20 @@ let player2 = {
     coin : 100,
 };
 
-let pot = 0;
+function decPlayerCoin(player, coin){
+    player.coin -= coin
+}
 
+function incPlayerCoin(player, coin){
+    player.coin += coin
+}
+
+// Game Constants
+
+let pot = 0;
+let minBet = 5;
+let gameCurrentBet = 5;
+let noOfPlayer = 2;
 
 
 // Functions.
@@ -58,54 +70,39 @@ let resultCheckButton = document.getElementById('result-check-button-id');
 let resultDisplay = document.getElementById('result-id');
 let potDisplay = document.getElementById('current-pot-size-id');
 
+
+/*
+GAME BUTTON
+*/
+
 // newGameButton starts the new game.
 newGameButton.addEventListener('click', function () {
     // disable the current button
     newGameButton.disabled = true;
     // enable player area
     enablePlayerArea(true);
+    // TODO: check if the entry bet is allowed.
+
+    // enter the player entry bet.
+    decPlayerCoin(player1,minBet);
+    decPlayerCoin(player2,minBet);
+    
+    // increment the pot
+    pot = 2*minBet;
+
+    // update the board.
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer1Coin(player1.coin);
+    updateDisplayPlayer2Coin(player2.coin);
+    
+
+
+
     resultCheckButton.disabled = false;
 });
 
 
-player1StakeButton.addEventListener('click', function () {
-    let playerInput = player1Input.value.trim();
-    if (playerInput === ""){
-        return;
-    }
-    let playerStake = parseInt(playerInput);
-
-    // decrement player coin
-    player1.coin -= playerStake;
-    player1Input.value = '';
-
-    // update the pot
-    pot += playerStake;
-
-    // display
-    updateDisplayCurrentPot(pot);
-    updateDisplayPlayer1Coin(player1.coin);
-});
-
-
-player2StakeButton.addEventListener('click', function () {
-    let playerInput = player2Input.value.trim();
-    if (playerInput === ""){
-        return;
-    }
-    let playerStake = parseInt(playerInput);
-    // decrement player coin
-    player2.coin -= playerStake;
-    player2Input.value = '';
-
-    // update the pot
-    pot += playerStake;
-
-    // display
-    updateDisplayCurrentPot(pot);
-    updateDisplayPlayer2Coin(player2.coin);
-});
-
+// resultCheckButton checks the winner of the game.
 resultCheckButton.addEventListener('click', function () {
     if (pot === 0) {
         return;
@@ -135,6 +132,92 @@ resultCheckButton.addEventListener('click', function () {
     resultCheckButton.disabled = true;
 });
 
+
+/*
+PLAYER BUTTON
+*/ 
+
+// player 1
+
+// player1StakeButton add the player 1 stake to the Pot
+player1StakeButton.addEventListener('click', function () {
+    let playerInput = player1Input.value.trim();
+    if (playerInput === ""){
+        return;
+    }
+    let playerStake = parseInt(playerInput);
+
+    // decrement player coin
+    player1.coin -= playerStake;
+    player1Input.value = '';
+
+    // update the pot
+    pot += playerStake;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer1Coin(player1.coin);
+});
+
+// player1BlindButton add the blind
+player1BlindButton.addEventListener('click', function(){
+    // player 1 Bind
+    player1.coin -= minBet;
+
+    // update pot.
+    pot += minBet;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer1Coin(player1.coin);
+
+    console.log("PLAYER 1 BLIND");
+})
+
+
+//  player 2
+
+// player2StakeButton add the player 2 stake to the Pot
+player2StakeButton.addEventListener('click', function () {
+    let playerInput = player2Input.value.trim();
+    if (playerInput === ""){
+        return;
+    }
+    let playerStake = parseInt(playerInput);
+    // decrement player coin
+    player2.coin -= playerStake;
+    player2Input.value = '';
+
+    // update the pot
+    pot += playerStake;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer2Coin(player2.coin);
+});
+
+
+// player1BlindButton add the blind
+player2BlindButton.addEventListener('click', function(){
+    // player 2 Bind
+    player2.coin -= minBet;
+
+    // update pot.
+    pot += minBet;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer2Coin(player2.coin);
+
+    console.log("PLAYER 2 BLIND");
+})
+
+
+
+
+
+
+
 // function
 
 function updateDisplayCurrentPot(coin){
@@ -154,10 +237,24 @@ function updateDisplayResult(playerName){
 }
 
 function enablePlayerArea( enable) {
+    // player 1
     player1Input.disabled = !enable;
     player1StakeButton.disabled = !enable;
+    player1BlindButton.disabled = !enable
+    player1CheckButton.disabled = !enable
+    player1RaiseButton.disabled = !enable
+    player1ShowButton.disabled = !enable
+    player1FlopButton.disabled = !enable
+    
+    
+    // player 2
     player2Input.disabled = !enable;
     player2StakeButton.disabled = !enable;
+    player2BlindButton.disabled = !enable
+    player2CheckButton.disabled = !enable
+    player2RaiseButton.disabled = !enable
+    player2ShowButton.disabled = !enable
+    player2FlopButton.disabled = !enable
 }
 
 window.onload = () => {
