@@ -10,8 +10,8 @@ export const SHOW = "CHECK";
 export const FLOP = "FLOP";
 
 export class Moves extends Player{
-    constructor(name, coin){
-        super(name, coin);
+    constructor(id, name, coin){
+        super(id, name, coin);
         this.blind = true;
         this.check = true;
         this.raise = true;

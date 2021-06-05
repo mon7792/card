@@ -6,10 +6,10 @@
 */
 
 class GameSession{
-    constructor(players){
-        this._session="dummy";
-        this._players = players;
-        this._playerTurnID = 1;
+    constructor(){
+        this._id="";
+        this._players = new Map();
+        this._playerTurnID = "";
     }
 
 
@@ -17,7 +17,7 @@ class GameSession{
         return this._players
     }
 
-    set setPlayersInSession(playerList){
-        this._players = playerList
+    addPlayer(playerID, player){
+        this._players.set(playerID, player)
     }
 }

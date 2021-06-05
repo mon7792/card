@@ -4,7 +4,8 @@
 
 
 export class Player{
-    constructor(playerName, playerCoin){
+    constructor(playerID, playerName, playerCoin){
+        this._id = playerID
         this._name = playerName;
         this._coin = playerCoin;
     }
