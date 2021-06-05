@@ -4,24 +4,33 @@
 
 
 export class Player{
-    constructor(name, coin){
-        this._name = name;
-        this._coin = coin;
+    constructor(playerName, playerCoin){
+        this._name = playerName;
+        this._coin = playerCoin;
     }
 
-    get name(){
+    get getName(){
         return this._name;
     }
 
-    set name(playerName){
+    set setName(playerName){
         this._name = playerName;
     }
 
-    get coin(){
+    get getCoin(){
         return this._coin;
     }
 
-    set coin(playerCoin){
+    set setCoin(playerCoin){
         this._coin = playerCoin;
     }
+
+    incCoin(playerCoin){
+        this._coin += playerCoin
+    }
+
+    decCoin(playerCoin){
+        this._coin -= playerCoin
+    }
+
 }
