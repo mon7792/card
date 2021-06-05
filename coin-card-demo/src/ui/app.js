@@ -101,7 +101,6 @@ newGameButton.addEventListener('click', function () {
     resultCheckButton.disabled = false;
 });
 
-
 // resultCheckButton checks the winner of the game.
 resultCheckButton.addEventListener('click', function () {
     if (pot === 0) {
@@ -174,6 +173,65 @@ player1BlindButton.addEventListener('click', function(){
     console.log("PLAYER 1 BLIND");
 })
 
+player1CheckButton.addEventListener('click', function(){
+    // player 1 Bind
+    player1.coin -= 2*gameCurrentBet;
+
+    // update pot.
+    pot += 2*gameCurrentBet;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer1Coin(player1.coin);
+
+    console.log("PLAYER 1 CHECK");
+})
+
+player1RaiseButton.addEventListener('click', function(){
+
+    // TODO: check if the raise is allowed
+
+    let playerInput = player1Input.value.trim();
+    if (playerInput === ""){
+        return;
+    }
+    let playerStake = parseInt(playerInput);
+
+    // decrement player coin
+    player1.coin -= playerStake;
+    player1Input.value = '';
+
+    // update the pot
+    pot += playerStake;
+
+    //  update game minbet
+    gameCurrentBet = playerStake
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer1Coin(player1.coin);
+
+    console.log("PLAYER 1 RAISE");
+})
+
+player1ShowButton.addEventListener('click', function(){
+    // TODO: check if the SHOW is allowed
+    // player 1 Bind
+    player1.coin -= 2*gameCurrentBet;
+
+    // update pot.
+    pot += 2*gameCurrentBet;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer1Coin(player1.coin);
+
+    console.log("PLAYER 1 SHOW");
+})
+
+player1FlopButton.addEventListener('click', function(){
+    console.log(" PLAYER 1 FLOP");
+})
 
 //  player 2
 
@@ -212,11 +270,66 @@ player2BlindButton.addEventListener('click', function(){
     console.log("PLAYER 2 BLIND");
 })
 
+player2CheckButton.addEventListener('click', function(){
+    // player 2
+    player2.coin -= 2*gameCurrentBet;
+
+    // update pot.
+    pot += 2*gameCurrentBet;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer2Coin(player2.coin);
+
+    console.log("PLAYER 2 CHECK");
+})
 
 
+player2RaiseButton.addEventListener('click', function(){
 
+    // TODO: check if the raise is allowed
+    
+    let playerInput = player2Input.value.trim();
+    if (playerInput === ""){
+        return;
+    }
+    let playerStake = parseInt(playerInput);
 
+    // decrement player coin
+    player2.coin -= playerStake;
+    player2Input.value = '';
 
+    // update the pot
+    pot += playerStake;
+
+    //  update game minbet
+    gameCurrentBet = playerStake
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer2Coin(player2.coin);
+
+    console.log("PLAYER 2 RAISE");
+})
+
+player2ShowButton.addEventListener('click', function(){
+    // TODO: check if the SHOW is allowed
+    // player 1 Bind
+    player2.coin -= 2*gameCurrentBet;
+
+    // update pot.
+    pot += 2*gameCurrentBet;
+
+    // display
+    updateDisplayCurrentPot(pot);
+    updateDisplayPlayer2Coin(player2.coin);
+
+    console.log("PLAYER 2 SHOW");
+})
+
+player2FlopButton.addEventListener('click', function(){
+    console.log(" PLAYER 2 FLOP");
+})
 
 // function
 
