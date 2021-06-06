@@ -3,7 +3,7 @@ package websocket
 
 import "fmt"
 
-// GamePool docs
+// GamePool docs.
 type GamePool struct {
 	Game map[string]*Pool
 }
@@ -33,6 +33,8 @@ func (pool *Pool) Start() {
 		case client := <-pool.Register:
 			pool.Clients[client] = true
 			fmt.Println("Size of the Connection Pool:", len(pool.Clients))
+			// TODO: send the message to redis channel
+			// add the redis channel
 			for clt := range pool.Clients {
 				fmt.Println(clt)
 				clt.Conn.WriteJSON(Message{Type: 1, Body: "New User Joined..."})
@@ -41,6 +43,8 @@ func (pool *Pool) Start() {
 		case client := <-pool.UnRegister:
 			delete(pool.Clients, client)
 			fmt.Println("Size of the Connection Pool:", len(pool.Clients))
+			// TODO: send the message to redis channel
+			// remove the redis channel
 			for clt := range pool.Clients {
 				fmt.Println(clt)
 				clt.Conn.WriteJSON(Message{Type: 1, Body: "User Disconnected.."})
@@ -48,6 +52,7 @@ func (pool *Pool) Start() {
 			break
 		case message := <-pool.Broadcast:
 			fmt.Println("Sending message to all the clients within the pool")
+			// TODO: send the message to redis channel
 			for clt := range pool.Clients {
 				fmt.Println(clt)
 				if err := clt.Conn.WriteJSON(message); err != nil {
