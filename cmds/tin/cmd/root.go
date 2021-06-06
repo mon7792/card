@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/mon7792/card/cmds/tin/cmd/game"
+	"github.com/mon7792/card/cmds/tin/cmd/redispubsubecho"
 	"github.com/mon7792/card/cmds/tin/cmd/ui"
 )
 
@@ -25,4 +26,5 @@ func init() {
 func addSubCommand() {
 	rootCmd.AddCommand(game.GetCommand())
 	rootCmd.AddCommand(ui.GetCommand())
+	rootCmd.AddCommand(redispubsubecho.GetCommand())
 }
