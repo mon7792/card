@@ -8,7 +8,6 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/mon7792/card/pkg/state"
 	webSoc "github.com/mon7792/card/pkg/websocket"
 )
 
@@ -47,20 +46,19 @@ func setupRoutes() {
 }
 
 func serveWs(pool *webSoc.Pool, w http.ResponseWriter, r *http.Request) {
-	ws, err := webSoc.Upgrader(w, r)
+	ws, err := webSoc.UpGrader(w, r)
 	if err != nil {
 		fmt.Fprintf(w, "%+V\n", err)
 		return
 	}
-	var gamePool = &webSoc.GamePool{Game: make(map[string]*webSoc.Pool)}
+
 	client := &webSoc.Client{
 		Conn: ws,
 		Pool: pool,
-		Game: gamePool,
 	}
 	// TODO: pool resgistration based on the game ID.
 	pool.Register <- client
-	client.Read(state.EvaluateGameState)
+	client.Read()
 }
 
 func handleMessage(message []byte) error {
