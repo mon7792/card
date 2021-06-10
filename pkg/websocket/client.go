@@ -1,6 +1,7 @@
 package websocket
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/gorilla/websocket"
@@ -33,7 +34,7 @@ func (c *Client) Read() (err error) {
 		mt, msg, err := c.Conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
-			return
+			return err
 		}
 
 		log.Println(mt, msg)
@@ -51,4 +52,9 @@ func (c *Client) Read() (err error) {
 		//}
 	}
 
+}
+
+// AddClientEntry add the client entry in the redis
+func (c *Client) AddClientEntry() {
+	fmt.Println("CLIENT ADDED IN THE REDIS STORE.")
 }

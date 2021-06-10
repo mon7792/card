@@ -29,6 +29,7 @@ func (pool *Pool) Start() {
 			pool.Clients[client] = true
 			fmt.Println("Size of the Connection Pool:", len(pool.Clients))
 			// TODO: send the message to redis channel
+			client.AddClientEntry()
 			// add the redis channel
 			//for clt := range pool.Clients {
 			//	fmt.Println(clt)

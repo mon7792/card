@@ -2,9 +2,10 @@
 package websoc
 
 import (
-	webSoc "github.com/mon7792/card/pkg/websocket"
 	"log"
 	"net/http"
+
+	webSoc "github.com/mon7792/card/pkg/websocket"
 )
 
 // setupWebSocketRoutes handles the websop
@@ -40,5 +41,12 @@ func serveWs(pool *webSoc.Pool, w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
 		return
+	}
+}
+
+func StartWebSocServer() {
+	setupWebSocketRoutes()
+	if err := http.ListenAndServe(":5000", nil); err != nil {
+		log.Fatal(err)
 	}
 }
