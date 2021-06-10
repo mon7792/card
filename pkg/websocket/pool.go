@@ -7,7 +7,7 @@ import "fmt"
 type Pool struct {
 	Register   chan *Client
 	UnRegister chan *Client
-	Clients    map[*Client]bool
+	Clients    map[string]*Client
 	Broadcast  chan Message
 }
 
@@ -16,7 +16,7 @@ func NewPool() *Pool {
 	return &Pool{
 		Register:   make(chan *Client),
 		UnRegister: make(chan *Client),
-		Clients:    make(map[*Client]bool),
+		Clients:    make(map[string]*Client),
 		Broadcast:  make(chan Message),
 	}
 }
@@ -26,7 +26,7 @@ func (pool *Pool) Start() {
 	for {
 		select {
 		case client := <-pool.Register:
-			pool.Clients[client] = true
+			pool.Clients[client.ID] = client
 			fmt.Println("Size of the Connection Pool:", len(pool.Clients))
 			// TODO: send the message to redis channel
 			client.AddClientEntry()
@@ -37,7 +37,7 @@ func (pool *Pool) Start() {
 			//}
 			break
 		case client := <-pool.UnRegister:
-			delete(pool.Clients, client)
+			delete(pool.Clients, client.ID)
 			fmt.Println("Size of the Connection Pool:", len(pool.Clients))
 			// TODO: send the message to redis channel
 			// remove the redis channel
@@ -49,7 +49,7 @@ func (pool *Pool) Start() {
 		case message := <-pool.Broadcast:
 			fmt.Println("Sending message to all the clients within the pool")
 			// TODO: send the message to redis channel
-			for clt := range pool.Clients {
+			for _, clt := range pool.Clients {
 				fmt.Println(clt)
 				if err := clt.Conn.WriteJSON(message); err != nil {
 					fmt.Println(err)

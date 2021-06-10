@@ -58,3 +58,9 @@ func (c *Client) Read() (err error) {
 func (c *Client) AddClientEntry() {
 	fmt.Println("CLIENT ADDED IN THE REDIS STORE.")
 }
+
+// write the message
+func (c *Client) Write(msg Message) error {
+	fmt.Println("WRITE TO")
+	return c.Conn.WriteJSON(msg)
+}

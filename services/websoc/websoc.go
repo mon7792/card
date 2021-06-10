@@ -19,12 +19,17 @@ func setupWebSocketRoutes() {
 		}
 	})
 
-	http.HandleFunc("/echo", func(w http.ResponseWriter, r *http.Request) {
-		serveWs(pool, w, r)
+	http.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		readWS(pool, w, r)
+	})
+
+	http.HandleFunc("/write", func(w http.ResponseWriter, r *http.Request) {
+		clientID := "132412"
+		writeWS(pool, w, r, clientID)
 	})
 }
 
-func serveWs(pool *webSoc.Pool, w http.ResponseWriter, r *http.Request) {
+func readWS(pool *webSoc.Pool, w http.ResponseWriter, r *http.Request) {
 	ws, err := webSoc.UpGrader(w, r)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -33,11 +38,22 @@ func serveWs(pool *webSoc.Pool, w http.ResponseWriter, r *http.Request) {
 	}
 
 	client := &webSoc.Client{
+		ID:   "132412", // TODO: this will be generated at random
 		Conn: ws,
 		Pool: pool,
 	}
 	pool.Register <- client
 	if err := client.Read(); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		log.Println(err)
+		return
+	}
+}
+
+func writeWS(pool *webSoc.Pool, w http.ResponseWriter, r *http.Request, clientID string) {
+
+	clientConn := pool.Clients[clientID]
+	if err := clientConn.Write(webSoc.Message{Type: 1, Body: "USER ! JOINED"}); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		log.Println(err)
 		return
