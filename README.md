@@ -24,3 +24,7 @@
 
 docker pull redis
 docker run --name redis-test-instance -p 6379:6379 -d redis
+
+
+// TODO: Work on this
+//https://tutorialedge.net/projects/chat-system-in-go-and-react/part-4-handling-multiple-clients/
