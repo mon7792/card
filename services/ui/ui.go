@@ -1,12 +1,8 @@
 package ui
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"time"
-
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func setupRouter() *gin.Engine {
@@ -33,7 +29,6 @@ func setupRouter() *gin.Engine {
 	r.POST("/create-game", func(c *gin.Context) {
 		// TODO: create a robust GAME ID logic
 		// VERIFY gameID
-		_ = fmt.Sprintf("%d", time.Now().Unix())
 
 	})
 
@@ -61,15 +56,6 @@ func setupRouter() *gin.Engine {
 	})
 
 	return r
-}
-
-// ServeUI serves game ui.
-func ServeUI() {
-	r := setupRouter()
-	// Listen and Server in 0.0.0.0:8080
-	if err := r.Run(":8080"); err != nil {
-		log.Panic(err)
-	}
 }
 
 // CODE TO SERVE FILE FROM THE STATIC FOLDER.
