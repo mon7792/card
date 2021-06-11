@@ -33,7 +33,7 @@ func (c *Client) Read() (err error) {
 		mt, msg, err := c.Conn.ReadMessage()
 		if err != nil {
 			log.Println(err)
-			return
+			return err
 		}
 
 		log.Println(mt, msg)
