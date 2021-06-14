@@ -2,27 +2,13 @@
 package game
 
 import (
-	"fmt"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/websocket"
-
-	webSoc "github.com/mon7792/card/pkg/websocket"
 )
-
-// upgrader specify the parameter to upgrade from http_connection to websocket connection
-var upgrader = websocket.Upgrader{}
-
-func init() {
-	upgrader.CheckOrigin = func(r *http.Request) bool {
-		return true
-	}
-}
 
 // ServeGame starts game backend.
 func ServeGame() {
-	setupRoutes()
+
 	if err := http.ListenAndServe(":5000", nil); err != nil {
 		log.Fatal(err)
 	}
