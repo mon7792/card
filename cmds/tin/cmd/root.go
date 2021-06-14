@@ -3,6 +3,7 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 
+	"github.com/mon7792/card/cmds/tin/cmd/api"
 	"github.com/mon7792/card/cmds/tin/cmd/game"
 	"github.com/mon7792/card/cmds/tin/cmd/redispubsubecho"
 	"github.com/mon7792/card/cmds/tin/cmd/ui"
@@ -29,4 +30,5 @@ func addSubCommand() {
 	rootCmd.AddCommand(ui.GetCommand())
 	rootCmd.AddCommand(redispubsubecho.GetCommand())
 	rootCmd.AddCommand(websoc.GetCommand())
+	rootCmd.AddCommand(api.GetCommand())
 }
