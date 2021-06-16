@@ -1,8 +1,10 @@
 package ui
 
 import (
-	"github.com/gin-gonic/gin"
+	"encoding/json"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func setupRouter() *gin.Engine {
@@ -27,10 +29,15 @@ func setupRouter() *gin.Engine {
 
 	// create-game : accept post request to create a game with a defined player name
 	r.POST("/create-game", func(c *gin.Context) {
-		// TODO: create a robust GAME ID logic
-		// VERIFY gameID
+		// TODO: work on the CSRF Token
+		// c.Request.Body
 
-		c.JSON(http.StatusOK, "/game/123")
+		// TODO: create a robust GAME ID logic
+
+		// VERIFY gameID
+		var s json.RawMessage = []byte(`{"game-id":"13412"}`)
+
+		c.JSON(http.StatusOK, s)
 
 	})
 

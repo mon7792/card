@@ -15,10 +15,26 @@
 
 <script type="application/javascript">
     console.log("create-game log");
-    var playerButtonID = document.getElementById("player-button-id");
+    let playerButtonID = document.getElementById("player-button-id");
     playerButtonID.addEventListener('click', function () {
         console.log("click");
-        window.location.replace("https://www.w3schools.com/js/js_window_location.asp")
+
+        const params = {
+            "name" : "13242"
+        };
+
+        const options = {
+            method: 'POST',
+            body: JSON.stringify( params )  
+        };
+
+        let gameID = ""
+        fetch(`/create-game`, options)
+        .then( response => response.json() )
+        .then(response => {
+            gameID = response["game-id"]
+            window.location.replace("http://localhost:8080/game/"+gameID)
+            });
     })
 
 </script>
