@@ -30,6 +30,8 @@ func setupRouter() *gin.Engine {
 		// TODO: create a robust GAME ID logic
 		// VERIFY gameID
 
+		c.JSON(http.StatusOK, "/game/123")
+
 	})
 
 	// join-game : display the page to player to join game

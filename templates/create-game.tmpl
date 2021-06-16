@@ -7,9 +7,20 @@
 <h1>CREATE GAME</h1>
 <h4>ENTER THE PLAYER NAME</h4>
 <label></label>
-<label for="player-name">Player name:</label>
-<input type="text" id="player-name" name="player-name">
 
-<button>START</button>
+    <label for="player-name">Player name:</label>
+    <input type="text" id="player-name" name="player-name">
+
+    <button id="player-button-id">START</button>
+
+<script type="application/javascript">
+    console.log("create-game log");
+    var playerButtonID = document.getElementById("player-button-id");
+    playerButtonID.addEventListener('click', function () {
+        console.log("click");
+        window.location.replace("https://www.w3schools.com/js/js_window_location.asp")
+    })
+
+</script>
 </body>
 </html>
