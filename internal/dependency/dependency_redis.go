@@ -1,19 +1,19 @@
 package dependency
 
-import "github.com/go-redis/redis"
+import (
+	"github.com/go-redis/redis"
+)
 
-type redisResolver struct {
-	conn *redis.Client
-}
-
-func (dr *redisResolver) MustResolveRedis() *redis.Client {
-	if dr.conn != nil {
-		return dr.conn
-	}
-
-	return redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
+// MustResolveCache returns the connection to the cache
+func (dr *depResolve) MustResolveCache() *redis.Client {
+	dr.cache.Do(func() {
+		//	TODO: get the address and password from environment variable.
+		dr.cache.redis = redis.NewClient(&redis.Options{
+			Addr:     "localhost:6379",
+			Password: "",
+			DB:       0,
+		})
 	})
+
+	return dr.cache.redis
 }
