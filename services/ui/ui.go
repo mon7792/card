@@ -30,7 +30,7 @@ func setupRouter() *gin.Engine {
 	// create-game : accept post request to create a game with a defined player name
 	r.POST("/create-game", func(c *gin.Context) {
 		// TODO: work on the CSRF Token
-		// c.Request.Body
+		//c.Request.Body
 
 		// TODO: create a robust GAME ID logic
 
